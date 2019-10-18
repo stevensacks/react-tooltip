@@ -1,0 +1,54 @@
+#react-tooltip-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2000000;
+    pointer-events: none;
+}
+#react-tooltip-container .react-tooltip {
+    position: relative;
+    display: block;
+    font-size: 12px;
+    line-height: 1.5;
+    opacity: 0.9;
+    user-select: none;
+}
+#react-tooltip-container .react-tooltip-inner {
+    padding: 8px 10px 7px;
+    border-radius: 5px;
+    background: #262626;
+    color: #fff;
+    text-align: left;
+    text-decoration: none;
+}
+#react-tooltip-container .react-tooltip-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+}
+#react-tooltip-container .react-tooltip-arrow-bottom {
+    top: -5px;
+    left: calc(50% - 5px);
+    border-bottom-color: #262626;
+    border-width: 0 5px 5px 5px;
+}
+#react-tooltip-container .react-tooltip-arrow-top {
+    bottom: -5px;
+    left: calc(50% - 5px);
+    border-top-color: #262626;
+    border-width: 5px 5px 0 5px;
+}
+#react-tooltip-container .react-tooltip-arrow-left {
+    top: calc(50% - 5px);
+    right: -5px;
+    border-left-color: #262626;
+    border-width: 5px 0 5px 5px;
+}
+#react-tooltip-container .react-tooltip-arrow-right {
+    top: calc(50% - 5px);
+    left: -5px;
+    border-right-color: #262626;
+    border-width: 5px 5px 5px 0;
+}

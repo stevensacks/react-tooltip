@@ -9,7 +9,7 @@ const OFFSET = {
 };
 
 const TooltipTip = props => {
-    const {className, overlay, position, setRect} = props;
+    const {className, maxWidth, overlay, position, setRect} = props;
     const ref = useRef(null);
 
     useEffect(() => {
@@ -17,6 +17,11 @@ const TooltipTip = props => {
             setRect(ref.current.getBoundingClientRect());
         }
     }, [setRect, ref]);
+
+    const innerStyle = {
+        maxWidth,
+        marginRight: window.innerWidth < maxWidth + 32 ? 16 : undefined,
+    };
 
     return (
         <div className={`react-tooltip ${className || ''}`} style={position}>
@@ -28,7 +33,12 @@ const TooltipTip = props => {
                         : undefined
                 }
             />
-            <div ref={ref} className="react-tooltip-inner" role="tooltip">
+            <div
+                ref={ref}
+                className="react-tooltip-inner"
+                role="tooltip"
+                style={innerStyle}
+            >
                 {overlay}
             </div>
         </div>
@@ -37,6 +47,7 @@ const TooltipTip = props => {
 
 TooltipTip.propTypes = {
     className: PropTypes.string,
+    maxWidth: PropTypes.number,
     overlay: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
     position: PropTypes.shape({
         left: PropTypes.number,

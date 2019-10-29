@@ -1,3 +1,6 @@
+const OFFSET = 10;
+const PADDING = 8;
+
 export const getContainer = () => {
     let container = document.getElementById('react-tooltip-container');
     if (!container) {
@@ -7,9 +10,6 @@ export const getContainer = () => {
     }
     return container;
 };
-
-const OFFSET = 10;
-const PADDING = 8;
 
 export const constrainRight = (rect, tipRect) => {
     if (window.innerWidth - tipRect.right - PADDING > tipRect.width) {
@@ -44,8 +44,8 @@ const constrainTop = (pos, rect, tipRect) => {
             offset: rect.top + rect.height / 2 - PADDING - 5,
         };
     }
-    if (pos.top + tipRect.height > window.innerHeight - PADDING - 23) {
-        const top = window.innerHeight - tipRect.height - PADDING - 23;
+    if (pos.top + tipRect.height > window.innerHeight - PADDING - 5) {
+        const top = window.innerHeight - tipRect.height - PADDING - 5;
         const offset = Math.min(
             rect.top + rect.height / 2 - top - 5,
             tipRect.height - 15
@@ -64,6 +64,7 @@ const constrainTop = (pos, rect, tipRect) => {
     }
     return pos;
 };
+
 export const calcPosition = (placement, rect, tipRect) => {
     if (placement === 'top') {
         return {
@@ -90,7 +91,7 @@ export const calcPosition = (placement, rect, tipRect) => {
     };
 };
 
-export const getPosition = (placement, rect, tipRect) => {
+export const getPosition = (placement, rect, tipRect, trying) => {
     const pos = calcPosition(placement, rect, tipRect);
     if (placement === 'top') {
         if (pos.top < PADDING) {
@@ -99,7 +100,7 @@ export const getPosition = (placement, rect, tipRect) => {
                 placement: 'bottom',
             };
         }
-        return {...constrainLeft(pos, rect, tipRect), placement};
+        return {...constrainLeft(pos, rect), placement};
     } else if (placement === 'bottom') {
         if (pos.top + tipRect.height > window.innerHeight - PADDING) {
             return {
@@ -110,6 +111,12 @@ export const getPosition = (placement, rect, tipRect) => {
         return {...constrainLeft(pos, rect), placement};
     } else if (placement === 'left') {
         if (pos.left < PADDING) {
+            if (!trying) {
+                const tryRight = getPosition('right', rect, tipRect, true);
+                if (tryRight.placement === 'left') {
+                    return getPosition('top', rect, tipRect);
+                }
+            }
             return {
                 placement: 'right',
                 ...constrainTop(
@@ -125,6 +132,12 @@ export const getPosition = (placement, rect, tipRect) => {
             rect.right + OFFSET >
             window.innerWidth - tipRect.width - PADDING * 3
         ) {
+            if (!trying) {
+                const tryLeft = getPosition('left', rect, tipRect, true);
+                if (tryLeft.placement === 'right') {
+                    return getPosition('top', rect, tipRect);
+                }
+            }
             return {
                 placement: 'left',
                 ...constrainTop(

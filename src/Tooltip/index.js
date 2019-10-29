@@ -1,5 +1,5 @@
 import {getContainer, getPosition} from './utils';
-import React, {cloneElement, useState} from 'react';
+import React, {cloneElement, Fragment, useState} from 'react';
 import {createPortal} from 'react-dom';
 import PropTypes from 'prop-types';
 import TooltipTip from './TooltipTip';
